@@ -1,4 +1,4 @@
-package club.movon.leetcode.solutions.twosum;
+package club.movon.leetcode.solutions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author zhangzhipeng
  * @date 2019-01-03
  */
-class TwoSum {
+class SolutionTwoSum {
     
     /**
      * 暴力法很简单。遍历每个元素 xx，并查找是否存在一个值与 target - xtarget−x 相等的目标元素。
@@ -95,7 +95,7 @@ class TwoSum {
     
     public static void main(String[] args) {
         
-        TwoSum solution = new TwoSum();
+        SolutionTwoSum solution = new SolutionTwoSum();
         int[] nums = {2, 7, 11, 15};
         int target = 9;
         int[] ints = solution.twoSumHashOnce(nums, target);

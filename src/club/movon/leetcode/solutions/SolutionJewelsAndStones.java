@@ -1,4 +1,4 @@
-package club.movon.leetcode.solutions.twosum;
+package club.movon.leetcode.solutions;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @author zhangzhipeng
  * @date 2019-01-04
  */
-public class JewelsAndStones {
+public class SolutionJewelsAndStones {
     public int numJewelsInStones(String J, String S) {
         int count = 0;
         Set<Integer> set = new HashSet<>();
