@@ -74,7 +74,9 @@ class SolutionTwoSum {
         for (int i = 0; i < nums.length; i++) {
             if (i > 0) {
                 int[] n = getIndex(nums, target, map, i);
-                if (n != null) return n;
+                if (n != null) {
+                    return n;
+                }
             }
             map.put(nums[i], i);
             
