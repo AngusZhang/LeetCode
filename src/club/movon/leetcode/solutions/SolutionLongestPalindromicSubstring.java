@@ -54,23 +54,22 @@ public class SolutionLongestPalindromicSubstring {
         }
         
         
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = i + 1; j < n; j++) {
-                table[i][j] = table[i + 1][j - 1] && chars[i] == chars[j];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                table[j][i] = table[j + 1][i - 1] && chars[i] == chars[j];
             }
         }
-    
+        
         int maxLen = 0;
         int indexLeft = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j <=i; j++) {
+            for (int j = 0; j <= i; j++) {
                 int len = i - j;
                 if (table[j][i] && maxLen < len) {
                     maxLen = Math.max(maxLen, len);
                     indexLeft = j;
                 }
             }
-            System.out.println();
         }
         return s.substring(indexLeft, indexLeft + maxLen + 1);
     }
