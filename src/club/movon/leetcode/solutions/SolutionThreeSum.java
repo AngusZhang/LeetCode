@@ -1,8 +1,9 @@
 package club.movon.leetcode.solutions;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
@@ -29,42 +30,39 @@ public class SolutionThreeSum {
      */
     public List<List<Integer>> threeSum(int[] nums) {
         qSort(nums, 0, nums.length - 1);
-        for (int i = 0; i < nums.length - 1; i++) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int target = 0 - nums[i];
             int start = i + 1;
             int end = nums.length - 1;
-            
+            List<List<Integer>> lists = twoSumHashOnce(nums, target, start, end);
+            result.addAll(lists);
         }
+        
+        return result;
     }
     
     public List<List<Integer>> twoSumHashOnce(int[] nums, int target, int start, int end) {
-        
-        Map<Integer, Integer> map = new HashMap<>();
-        
-        for (int i = start; i < nums.length; i++) {
-            if (i > 0) {
-                int[] n = getIndex(nums, target, map, i);
-                if (n != null) {
-                    return n;
-                }
+        Set<Integer> set = new HashSet<>();
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                continue;
             }
-            map.put(nums[i], i);
-            
+            int diff = target - nums[i];
+            if (set.contains(diff)) {
+                List<Integer> list = new ArrayList<>();
+                list.add(0 - target);
+                list.add(diff);
+                list.add(nums[i]);
+                result.add(list);
+            }
+            set.add(nums[i]);
         }
-        
-        
-    }
-    
-    private int[] getIndex(int[] nums, int target, Map<Integer, Integer> map, int i) {
-        int result = target - nums[i];
-        Integer n = map.get(result);
-        if (n != null && n != i) {
-            return new int[]{n, i};
-        }
-        return null;
+        return result;
     }
     
     void qSort(int[] arr, int head, int tail) {
@@ -91,5 +89,19 @@ public class SolutionThreeSum {
         }
         qSort(arr, head, j);
         qSort(arr, i, tail);
+    }
+    
+    public static void main(String[] args) {
+        SolutionThreeSum solution = new SolutionThreeSum();
+        int[] nums = {-1, 0, 1, 1, 2, -1, -1 - 4};
+        
+        List<List<Integer>> lists = solution.threeSum(nums);
+        for (List<Integer> list : lists) {
+            for (Integer integer : list) {
+                System.out.printf("%d ", integer);
+            }
+            
+            System.out.println();
+        }
     }
 }
