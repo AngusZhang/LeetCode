@@ -1,9 +1,14 @@
 package club.movon.leetcode.solutions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
@@ -29,27 +34,37 @@ public class SolutionThreeSum {
      * @return
      */
     public List<List<Integer>> threeSum(int[] nums) {
-        qSort(nums, 0, nums.length - 1);
+        Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int target = 0 - nums[i];
-            int start = i + 1;
-            int end = nums.length - 1;
-            List<List<Integer>> lists = twoSumHashOnce(nums, target, start, end);
+            List<List<Integer>> lists = twoSumHashOnce(nums, target, i);
             result.addAll(lists);
         }
         
+        Set<String> resultStr = new HashSet<>();
+        Iterator<List<Integer>> iterator = result.iterator();
+        while (iterator.hasNext()) {
+            List<Integer> next = iterator.next();
+            next.sort((Comparator.comparingInt(o -> o)));
+            String str = next.stream().map(Objects::toString).collect(Collectors.joining("|"));
+            if (resultStr.contains(str)) {
+                iterator.remove();
+            } else {
+                resultStr.add(str);
+            }
+        }
         return result;
     }
     
-    public List<List<Integer>> twoSumHashOnce(int[] nums, int target, int start, int end) {
+    public List<List<Integer>> twoSumHashOnce(int[] nums, int target, int excludeIndex) {
         Set<Integer> set = new HashSet<>();
         List<List<Integer>> result = new ArrayList<>();
-        for (int i = start; i <= end; i++) {
-            if (i > start && nums[i] == nums[i - 1]) {
+        for (int i = 0; i < nums.length; i++) {
+            if (i == excludeIndex) {
                 continue;
             }
             int diff = target - nums[i];
@@ -63,32 +78,6 @@ public class SolutionThreeSum {
             set.add(nums[i]);
         }
         return result;
-    }
-    
-    void qSort(int[] arr, int head, int tail) {
-        if (head >= tail || arr == null || arr.length <= 1) {
-            return;
-        }
-        int i = head, j = tail, pivot = arr[(head + tail) / 2];
-        while (i <= j) {
-            while (arr[i] < pivot) {
-                ++i;
-            }
-            while (arr[j] > pivot) {
-                --j;
-            }
-            if (i < j) {
-                int t = arr[i];
-                arr[i] = arr[j];
-                arr[j] = t;
-                ++i;
-                --j;
-            } else if (i == j) {
-                ++i;
-            }
-        }
-        qSort(arr, head, j);
-        qSort(arr, i, tail);
     }
     
     public static void main(String[] args) {
