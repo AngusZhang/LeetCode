@@ -24,12 +24,16 @@ public class SolutionValidParentheses {
         map.put('[', ']');
         map.put('{', '}');
         
-        char[] st = new char[s.length() / 2 + 1];
+        int size = s.length() / 2;
+        char[] st = new char[size];
         int top = -1;
         
         for (char c : s.toCharArray()) {
             if (map.keySet().contains(c)) {
-                st[++top] = c;
+                if (++top >= size) {
+                    return false;
+                }
+                st[top] = c;
             } else {
                 if (top < 0) {
                     return false;
